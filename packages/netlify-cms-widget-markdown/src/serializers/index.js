@@ -135,7 +135,9 @@ export const remarkToMarkdown = obj => {
     .use(remarkToMarkdownPlugin, remarkToMarkdownPluginOpts)
     .use(remarkAllowAllText)
     .use(createRemarkShortcodeStringifier({ plugins: getEditorComponents() }))
-    .stringify(processedMdast);
+    .stringify(processedMdast)
+    // Normalize newlines to prevent carriage returns from creeping in on Windows:
+    .replace(/\r\n?|\n\r?/g, '\n');
 
   /**
    * Return markdown with trailing whitespace removed.
